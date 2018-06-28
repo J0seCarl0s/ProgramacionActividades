@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vista.ProjectController">
+   <children>
+      <TabPane fx:id="tabPane" layoutY="100.0" prefHeight="554.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Untitled Tab 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="30.0" layoutY="18.0" prefHeight="50.0" prefWidth="223.0" style="-: #486E9D;" text="Página Personal" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="100.0" prefHeight="50.0" prefWidth="110.0" style="-: #486E9D;" text="Código:" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="160.0" prefHeight="50.0" prefWidth="110.0" style="-: #486E9D;" text="Nombres:" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="220.0" prefHeight="50.0" prefWidth="110.0" style="-: #486E9D;" text="Apellidos:" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="280.0" prefHeight="50.0" prefWidth="165.0" style="-: #486E9D;" text="Año de ingreso:" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="80.0" layoutY="340.0" prefHeight="50.0" prefWidth="230.0" style="-: #486E9D;" text="Promedio ponderado:" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="outputCodigo" layoutX="400.0" layoutY="100.0" prefHeight="50.0" prefWidth="383.0" style="-: #486E9D;" text="outputCodigo" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="outputNombres" layoutX="400.0" layoutY="160.0" prefHeight="50.0" prefWidth="383.0" style="-: #486E9D;" text="outputNombres" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="outputApellidos" layoutX="400.0" layoutY="220.0" prefHeight="50.0" prefWidth="383.0" style="-: #486E9D;" text="outputApellidos" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="outputAnioIngreso" layoutX="400.0" layoutY="280.0" prefHeight="50.0" prefWidth="383.0" style="-: #486E9D;" text="outputAnioIngreso" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="outputPromedio" layoutX="400.0" layoutY="340.0" prefHeight="50.0" prefWidth="383.0" style="-: #486E9D;" text="outputPromedio" textAlignment="RIGHT">
+                           <font>
+                              <Font name="Candara Italic" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Untitled Tab 2">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;" stylesheets="@../style/style.css">
+                     <children>
+                        <Button fx:id="btnAgregar" layoutX="1104.0" layoutY="94.0" mnemonicParsing="false" onAction="#actionAgregarActividad" prefHeight="34.0" prefWidth="66.0" styleClass="btnCentrado" stylesheets="@../style/style.css">
+                           <graphic>
+                              <ImageView fitHeight="50.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/iconMas.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Label layoutX="30.0" layoutY="18.0" prefHeight="50.0" prefWidth="357.0" style="-: #486E9D;" text="Programa de actividades" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tableActividades" editable="true" layoutX="137.0" layoutY="94.0" prefHeight="384.0" prefWidth="938.0">
+                          <columns>
+                            <TableColumn fx:id="columnN" editable="false" prefWidth="36.0" text="N°" />
+                            <TableColumn fx:id="columnNombre" editable="true" onEditCommit="#finEdicionNombre" prefWidth="278.0" text="Nombre tarea" />
+                              <TableColumn fx:id="columnDuracion" editable="true" onEditCommit="#finEdicionDuracion" prefWidth="113.0" text="Duracion" />
+                              <TableColumn fx:id="columnPredecesores" editable="false" prefWidth="302.0" text="Predecesores" />
+                              <TableColumn fx:id="columnAgregar" editable="false" prefWidth="152.0" text="Agregar" />
+                              <TableColumn fx:id="columnEliminar" editable="false" prefWidth="56.0" styleClass="ceroPadding" text="Eliminar" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+          </Tab>
+            <Tab text="Untitled Tab 3">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="30.0" layoutY="18.0" prefHeight="50.0" prefWidth="357.0" style="-: #486E9D;" text="Resultado" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="tableActividades1" editable="true" layoutX="137.0" layoutY="94.0" prefHeight="384.0" prefWidth="938.0">
+                           <columns>
+                              <TableColumn fx:id="columnN1" editable="false" prefWidth="36.0" text="N°" />
+                              <TableColumn fx:id="columnNombre1" editable="true" onEditCommit="#finEdicionNombre" prefWidth="114.0" text="Nombre tarea" />
+                              <TableColumn fx:id="columnDuracion1" editable="true" onEditCommit="#finEdicionDuracion" prefWidth="179.0" text="Duracion" />
+                              <TableColumn fx:id="columnPredecesores1" editable="false" prefWidth="279.0" text="Predecesores" />
+                              <TableColumn fx:id="columnAgregar1" editable="false" prefWidth="172.0" text="Agregar" />
+                              <TableColumn fx:id="columnEliminar1" editable="false" prefWidth="157.0" text="Eliminar" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Untitled Tab 4">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="501.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+                     <children>
+                        <Label layoutX="30.0" layoutY="18.0" prefHeight="50.0" prefWidth="357.0" style="-: #486E9D;" text="Diagrama de Gantt" textAlignment="RIGHT" textFill="#486e9d">
+                           <font>
+                              <Font name="Candara Bold Italic" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Separator layoutY="142.0" prefHeight="4.0" prefWidth="1200.0" />
+      <Separator layoutY="200.0" prefHeight="4.0" prefWidth="1200.0" />
+      <Pane prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: #486E9D;">
+         <children>
+            <Label layoutX="528.0" layoutY="12.0" prefHeight="50.0" prefWidth="137.0" text="PROJECT" textAlignment="RIGHT" textFill="WHITE">
+               <font>
+                  <Font name="Candara Bold Italic" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutY="70.0" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
+         <children>
+            <Button layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onAction="#mostrarPaginaPersonal" style="-fx-background-color: #486E9D;" styleClass="btnSuperior" stylesheets="@../style/style.css" text="Página Personal" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconoUsuario.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="180.0" layoutY="4.0" mnemonicParsing="false" onAction="#mostrarHistorialAcademico" style="-fx-background-color: #486E9D;" styleClass="btnSuperior" stylesheets="@../style/style.css" text="Ingreso de actividades" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconoHistorial.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="1093.0" layoutY="4.0" mnemonicParsing="false" onAction="#salir" style="-fx-background-color: #486E9D;" styleClass="btnSuperior" stylesheets="@../style/style.css" text="Salir" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconoSalir.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="398.0" layoutY="4.0" mnemonicParsing="false" onAction="#mostrarTablaResultado" style="-fx-background-color: #486E9D;" styleClass="btnSuperior" stylesheets="@../style/style.css" text="Tabla resultado" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconoHistorial.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="571.0" layoutY="4.0" mnemonicParsing="false" onAction="#mostrarDiagramaGantt" style="-fx-background-color: #486E9D;" styleClass="btnSuperior" stylesheets="@../style/style.css" text="Diagrama de Gantt" textFill="WHITE">
+               <font>
+                  <Font name="Candara" size="15.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="37.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/iconoHistorial.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
