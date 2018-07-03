@@ -179,15 +179,28 @@
             </Button>
          </children>
       </Pane>
-      <MenuBar prefHeight="12.0" prefWidth="1200.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
-            <items>
-                  <MenuItem mnemonicParsing="false" text="Guardar" />
-              <MenuItem mnemonicParsing="false" text="Abrir" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+            <MenuBar prefHeight="12.0" prefWidth="1200.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#actionNuevo" text="Nuevo" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionAbrir" text="Abrir" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionGuardar" text="Guardar" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionGuardarComo" text="Guardar Como ..." />
+                        <MenuItem mnemonicParsing="false" text="Cerrar" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="About" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
    </children>
 </AnchorPane>

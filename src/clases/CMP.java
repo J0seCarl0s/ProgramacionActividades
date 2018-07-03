@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.collections.ObservableList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -76,7 +77,13 @@ public class CMP {
         }
 
         // compute longest path
-        LPAciclico cml = new LPAciclico(G, inicio);
+        LPAciclico cml;
+        try {
+            cml = new LPAciclico(G, inicio);
+        } catch (java.lang.IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "ERROR!! \n El digrafo es ciclico", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
         double total = cml.distanciaHacia(fin);
 
         for (int i = 0; i < N; i++) {

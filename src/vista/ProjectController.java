@@ -3,6 +3,8 @@ package vista;
 import clases.Actividad;
 import clases.ActividadProgramada;
 import clases.CMP;
+import clases.GestorArchivos;
+import java.io.File;
 import utils.Painter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,9 +33,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
+import javax.swing.JOptionPane;
 import utils.Utiles;
 
 public class ProjectController implements Initializable  {
+    public static File archivoActual = null;
+    private boolean estaGuardado = true;
+    
     private ObservableList<Actividad> actividades;
     private ObservableList<ActividadProgramada> actividadesProgramadas;
 
@@ -405,8 +411,8 @@ public class ProjectController implements Initializable  {
         for(int i=1;i<=cantidadLineasEntrecortadas;i++){
             valorAct += (maximaTerminacion/cantidadLineasEntrecortadas);
             x += (maximaTerminacion/cantidadLineasEntrecortadas)*escalaDibujo;
-            painter.dibujarLinea(x, y+8, x, yMargen, true);
-            painter.aniadirLabel(Utiles.redondear(valorAct)+"", x-8, y+15);
+            painter.dibujarLinea(x, y+anchoBarra, x, yMargen, true);
+            painter.aniadirLabel(Utiles.redondear(valorAct)+"", x-8, y+10);
         }
         
         //ESSCRIBIENDO LA LEYENDA
@@ -457,5 +463,61 @@ public class ProjectController implements Initializable  {
         actividades.add(act6);
         actividades.add(act7);
         actividades.add(act8);
+    }
+    
+    @FXML
+    void actionNuevo(ActionEvent event) {
+
+        if (!estaGuardado) {
+            int resp = JOptionPane.showConfirmDialog(null,
+                    "El arhivo actual no se ha guardado\n ¿Desea abrir uno nuevo?",
+                    "Advertencia",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+            if (resp == JOptionPane.YES_OPTION) {
+                actividades.clear();
+                Actividad.resetearIndice();
+                estaGuardado = true;
+                archivoActual = null;
+            }
+        } else {
+            actividades.clear();
+            Actividad.resetearIndice();
+            archivoActual = null;
+            tableActividades.refresh();
+        }
+    }
+
+    @FXML
+    void actionAbrir(ActionEvent event) {
+        List<Actividad> lst = GestorArchivos.abrir();
+//        System.out.println("IMPrIMIENDO LISTA ABIERTA");
+//        lst.forEach(System.out::println);
+
+        if (lst != null) {
+            actividades.clear();
+            Actividad.resetearIndice();
+            lst.forEach(x -> {
+                x.setCombo(obtenerCombo());
+                x.setBotonEliminar(obtenerBtnEliminar());
+                actividades.add(x);
+            });
+            tableActividades.refresh();
+        }
+
+    }
+
+    @FXML
+    void actionGuardar(ActionEvent event) {
+        if (archivoActual != null) {
+            GestorArchivos.guardar(actividades, archivoActual);
+        } else {
+            GestorArchivos.guardarComo(actividades);
+        }
+    }
+
+    @FXML
+    void actionGuardarComo(ActionEvent event) {
+        GestorArchivos.guardarComo(actividades);
     }
 }
