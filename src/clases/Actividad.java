@@ -34,6 +34,7 @@ public class Actividad {
         this.nombreDeTarea = nombreDeTarea;
         this.duracion = duracion;
         predecesoras = new LinkedList<>();
+        indice++;
     }
     
     

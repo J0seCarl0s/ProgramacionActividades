@@ -9,6 +9,8 @@ package utils;
  *
  * @author Josecarlos
  */
-public class Utils {
-    public static String idUsuarioActual = "adrian.medina";
+public class Utiles {
+    public static double redondear(Double numero){
+        return Math.round(numero*100)/100.0;
+    }
 }
