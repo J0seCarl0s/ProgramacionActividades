@@ -29,6 +29,15 @@ public class Actividad {
         predecesoras = new LinkedList<>();
     }
 
+    public Actividad(int numeroDeActividad, String nombreDeTarea, double duracion) {
+        this.numeroDeActividad = numeroDeActividad;
+        this.nombreDeTarea = nombreDeTarea;
+        this.duracion = duracion;
+        predecesoras = new LinkedList<>();
+    }
+    
+    
+    
     public int getNumeroDeActividad() {
         return numeroDeActividad;
     }
