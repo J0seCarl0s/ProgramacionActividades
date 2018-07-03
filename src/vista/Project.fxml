@@ -101,30 +101,7 @@
                   <Font name="Candara Bold Italic" size="30.0" />
                </font>
             </Label>
-            <MenuBar prefHeight="12.0" prefWidth="1200.0">
-              <menus>
-                <Menu mnemonicParsing="false" text="Archivo">
-                  <items>
-                    <MenuItem mnemonicParsing="false" onAction="#actionNuevo" text="Nuevo" />
-                        <MenuItem mnemonicParsing="false" onAction="#actionAbrir" text="Abrir" />
-                        <MenuItem mnemonicParsing="false" onAction="#actionGuardar" text="Guardar" />
-                        <MenuItem mnemonicParsing="false" onAction="#actionGuardarComo" text="Guardar Como ..." />
-                        <MenuItem mnemonicParsing="false" text="Cerrar" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-                  </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-         </children>
+           </children>
       </Pane>
       <Pane layoutY="79.0" prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: #ffffff;">
          <children>

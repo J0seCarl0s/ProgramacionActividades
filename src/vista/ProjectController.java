@@ -6,7 +6,7 @@ import clases.CMP;
 import clases.GestorArchivos;
 import java.io.File;
 import java.net.URL;
-import utils.Utils;
+import utils.Utiles;
 import utils.Painter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -503,7 +503,6 @@ public class ProjectController implements Initializable  {
 
         if (lst != null) {
             actividades.clear();
-            Actividad.resetearIndice();
             lst.forEach(x -> {
                 x.setCombo(obtenerCombo());
                 x.setBotonEliminar(obtenerBtnEliminar());
