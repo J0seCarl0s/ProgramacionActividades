@@ -41,10 +41,11 @@ import javafx.util.StringConverter;
 import javax.swing.JOptionPane;
 import utils.Utiles;
 
-public class ProjectController implements Initializable  {
+public class ProjectController implements Initializable {
+
     public static File archivoActual = null;
     private boolean estaGuardado = true;
-    
+
     private ObservableList<Actividad> actividades;
     private ObservableList<ActividadProgramada> actividadesProgramadas;
 
@@ -77,7 +78,7 @@ public class ProjectController implements Initializable  {
 
     @FXML
     private TableView<ActividadProgramada> tablaResultado;
-    
+
     @FXML
     private TableColumn<ActividadProgramada, String> columnNombreTarea;
     @FXML
@@ -92,7 +93,7 @@ public class ProjectController implements Initializable  {
     private TableColumn<ActividadProgramada, Double> columnHolgura;
     @FXML
     private TableColumn<ActividadProgramada, String> columnRutaCrit;
-    
+
     @FXML
     private AnchorPane panelDibujo;
 
@@ -205,9 +206,9 @@ public class ProjectController implements Initializable  {
                 }
 
                 List<Integer> listaNumeros = new LinkedList<>();
-                try{
+                try {
                     lista.forEach(act -> listaNumeros.add(act.getNumeroDeActividad()));
-                }catch (Exception e){
+                } catch (Exception e) {
                     System.out.println("ALGO OCURRE");
                 }
                 return listaNumeros.toString();
@@ -224,8 +225,8 @@ public class ProjectController implements Initializable  {
         columnAgregar.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getCombo()));
         columnEliminar.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getBotonEliminar()));
     }
-    
-    private void iniciarTablaResultado(){
+
+    private void iniciarTablaResultado() {
         tablaResultado.setItems(actividadesProgramadas);
         columnNombreTarea.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombreActividad()));
         columnIniTemp.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getInicioMasTemprano()));
@@ -235,7 +236,7 @@ public class ProjectController implements Initializable  {
         columnHolgura.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getHolgura()));
         columnRutaCrit.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().isRutaCritica() ? "SI" : "NO"));
-        
+
     }
 
     private ComboBox<Actividad> obtenerCombo() {
@@ -254,27 +255,30 @@ public class ProjectController implements Initializable  {
                 return null;
             }
         });
-        
-        combo.setOnAction((evt)->{
-                Actividad seleccionado = combo.getValue();
-                //Si no esta nada seleccionado en el combo box interrumpe la ejecucion del evento
-                if(seleccionado==null) return;
-                
-                //BUSCANDO LA ACTIVIDAD A LA QUE PERTENCE ESTE COMBO BOX
-                Actividad estaActividad = actividades.stream()
-                        .filter((act)->act.getCombo() == combo).findFirst().get();
-                
-                if(estaActividad == seleccionado){
-                    System.out.println("ESTAS SELECCIONANDO LA MISMA ACTIVIDAD");
-                }else if(estaActividad.getPredecesoras().contains(seleccionado)){
-                    System.out.println("YA CONTENIA ESTA PREDECESORA");
-                    estaActividad.eliminarPredecesora(seleccionado);
-                }else{
-                    System.out.println("ANIADIENDO UNA PREDECESORA");
-                    estaActividad.agregarPredecesora(seleccionado);
-                }
-                combo.getSelectionModel().clearSelection();
-                tableActividades.refresh();
+
+        combo.setOnAction((evt) -> {
+            Actividad seleccionado = combo.getValue();
+            //Si no esta nada seleccionado en el combo box interrumpe la ejecucion del evento
+            if (seleccionado == null) {
+                return;
+            }
+
+            //BUSCANDO LA ACTIVIDAD A LA QUE PERTENCE ESTE COMBO BOX
+            Actividad estaActividad = actividades.stream()
+                    .filter((act) -> act.getCombo() == combo).findFirst().get();
+
+            if (estaActividad == seleccionado) {
+                System.out.println("ESTAS SELECCIONANDO LA MISMA ACTIVIDAD");
+            } else if (estaActividad.getPredecesoras().contains(seleccionado)) {
+                System.out.println("YA CONTENIA ESTA PREDECESORA");
+                estaActividad.eliminarPredecesora(seleccionado);
+            } else {
+                System.out.println("ANIADIENDO UNA PREDECESORA");
+                estaActividad.agregarPredecesora(seleccionado);
+            }
+            btnAgregar.requestFocus();
+            combo.getSelectionModel().clearSelection();
+            tableActividades.refresh();
         });
         return combo;
     }
@@ -307,35 +311,35 @@ public class ProjectController implements Initializable  {
         botonEliminar.getStyleClass().add("btnCentrado");
         return botonEliminar;
     }
-    
-    private void dibujarGantt(){
+
+    private void dibujarGantt() {
         Painter painter = new Painter(panelDibujo);
-        
+
         //LIMPIANDO EL PANEL
         panelDibujo.getChildren().clear();
-        
-        String estilo = "-fx-background-color: palegreen; " +
-                    "-fx-background-insets: 10; " +
-                    "-fx-background-radius: 10; " +
-                    "-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);";
-                
+
+        String estilo = "-fx-background-color: palegreen; "
+                + "-fx-background-insets: 10; "
+                + "-fx-background-radius: 10; "
+                + "-fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0);";
+
         //Margenes en porcentaje 
         double porcMargenIzqDerDibujo = 0.1;
         double porcMargenIzqTexto = 0.03;
         double porcentajeMargenArrAba = 0.06;
-        
+
         double porcentajeAnchoBarra = 0.30;
-        
+
         double anchoBarra;
         double espacioEntreBarras;
         int cantidadLineasEntrecortadas = 15;
         double maximaTerminacion;
-        
+
         double escalaDibujo;
         double xMargenDibujo;
         double xMargenTexto;
         double yMargen;
-        
+
         //Lista de colores para pintar las barras
         Color colorCritico = Color.ORANGE;
         Color colorNoCritico = Color.RED;
@@ -343,101 +347,100 @@ public class ProjectController implements Initializable  {
 
         //Calculando la maxima terminacion
         maximaTerminacion = actividadesProgramadas.stream().max(
-                (a1,a2)->Double.compare(
+                (a1, a2) -> Double.compare(
                         a1.getTerminacionMasTardia(), a2.getTerminacionMasTardia()
                 )).get().getTerminacionMasTardia();
-        
-        
+
         //escala del dilbujo
         escalaDibujo = (panelDibujo.getPrefWidth()
-                *(1-(porcMargenIzqDerDibujo+porcMargenIzqTexto)))/maximaTerminacion;
-        
+                * (1 - (porcMargenIzqDerDibujo + porcMargenIzqTexto))) / maximaTerminacion;
+
         //Ubicacion en el eje x
-        xMargenDibujo = panelDibujo.getPrefWidth()*porcMargenIzqDerDibujo;
-        xMargenTexto = panelDibujo.getPrefWidth()*porcMargenIzqTexto;
-        
+        xMargenDibujo = panelDibujo.getPrefWidth() * porcMargenIzqDerDibujo;
+        xMargenTexto = panelDibujo.getPrefWidth() * porcMargenIzqTexto;
+
         //Ubicacion en el eje y
-        yMargen = panelDibujo.getPrefHeight()*porcentajeMargenArrAba;
-        
+        yMargen = panelDibujo.getPrefHeight() * porcentajeMargenArrAba;
+
         //Calculando el ancho de cada barra de acuerdo a la cantidad de
         //actividades que existan
-        anchoBarra = ((panelDibujo.getPrefHeight()-yMargen)/actividadesProgramadas.size())*porcentajeAnchoBarra;
+        anchoBarra = ((panelDibujo.getPrefHeight() - yMargen) / actividadesProgramadas.size()) * porcentajeAnchoBarra;
         //Estableciendo un minimo de 10 de ancho para la barra
         anchoBarra = anchoBarra > 10 ? anchoBarra : 10;
-        
+
         //Calculando el espacio entre barra y barra
-        espacioEntreBarras = ((panelDibujo.getPrefHeight()-yMargen)/actividadesProgramadas.size())*(1-porcentajeAnchoBarra);
+        espacioEntreBarras = ((panelDibujo.getPrefHeight() - yMargen) / actividadesProgramadas.size()) * (1 - porcentajeAnchoBarra);
         //Estableciendo un minimo de 15 para el espacioEntreBarras
-        System.out.println("ESPACIO ENTRE BARRAS: "+espacioEntreBarras);
+        System.out.println("ESPACIO ENTRE BARRAS: " + espacioEntreBarras);
         espacioEntreBarras = espacioEntreBarras > 15 ? espacioEntreBarras : 15;
-        
+
         double y = yMargen;
         double x;
-        System.out.println("ESPACIO ENTRE BARRAS: "+espacioEntreBarras);
-        System.out.println("ANCHO BARRA: "+anchoBarra);
-        for(int i=0;i<actividadesProgramadas.size();i++){
-            x = xMargenDibujo + actividadesProgramadas.get(i).getInicioMasTemprano()*escalaDibujo;
-            
-            double duracion = actividadesProgramadas.get(i).getTerminacionMasTemprana()-
-                    actividadesProgramadas.get(i).getInicioMasTemprano();
-                    
+        System.out.println("ESPACIO ENTRE BARRAS: " + espacioEntreBarras);
+        System.out.println("ANCHO BARRA: " + anchoBarra);
+        for (int i = 0; i < actividadesProgramadas.size(); i++) {
+            x = xMargenDibujo + actividadesProgramadas.get(i).getInicioMasTemprano() * escalaDibujo;
+
+            double duracion = actividadesProgramadas.get(i).getTerminacionMasTemprana()
+                    - actividadesProgramadas.get(i).getInicioMasTemprano();
+
             //ESCRIBIENDO NOMBRE DE ACTIVIDAD
-            painter.aniadirLabel(actividadesProgramadas.get(i).getNombreActividad()
-                    , xMargenTexto, y+5);
-            
+            painter.aniadirLabel(actividadesProgramadas.get(i).getNombreActividad(),
+                    xMargenTexto, y + 5);
+
             //EL TEXTO QUE IRA EN EL TOOLTIP
-            String textoTooltip = "Actividad: "+actividadesProgramadas.get(i).getNombreActividad()
-                    +"\nInicio: "+Utiles.redondear(actividadesProgramadas.get(i).getInicioMasTemprano())
-                    +"\nFin: "+Utiles.redondear(actividadesProgramadas.get(i).getTerminacionMasTemprana())
-                    +"\nHolgura: "+Utiles.redondear(actividadesProgramadas.get(i).getHolgura());
-            
+            String textoTooltip = "Actividad: " + actividadesProgramadas.get(i).getNombreActividad()
+                    + "\nInicio: " + Utiles.redondear(actividadesProgramadas.get(i).getInicioMasTemprano())
+                    + "\nFin: " + Utiles.redondear(actividadesProgramadas.get(i).getTerminacionMasTemprana())
+                    + "\nHolgura: " + Utiles.redondear(actividadesProgramadas.get(i).getHolgura());
+
             //DIBUJANDO EL RECTANGULO DE DURACION
-            Color color = actividadesProgramadas.get(i).isRutaCritica() ? 
-                    colorCritico : colorNoCritico;
-            painter.dibujarRectangulo(x, y, duracion*escalaDibujo
-                    , anchoBarra, color, estilo,textoTooltip);
-            
+            Color color = actividadesProgramadas.get(i).isRutaCritica()
+                    ? colorCritico : colorNoCritico;
+            painter.dibujarRectangulo(x, y, duracion * escalaDibujo,
+                    anchoBarra, color, estilo, textoTooltip);
+
             //DIBUJANDO EL RECTANGULO DE HOLGURA
-            x += duracion*escalaDibujo;
-            painter.dibujarRectangulo(x, y
-                    ,actividadesProgramadas.get(i).getHolgura()*escalaDibujo
-                    ,anchoBarra,colorHolgura, estilo,textoTooltip);
-            
+            x += duracion * escalaDibujo;
+            painter.dibujarRectangulo(x, y,
+                    actividadesProgramadas.get(i).getHolgura() * escalaDibujo,
+                    anchoBarra, colorHolgura, estilo, textoTooltip);
+
             //EL SALTO PARA DIBUJAR LA SIGUIENTE BARRA
             y += espacioEntreBarras;
         }
         //DIBUJANDO LA LINEA VERTICAL DE LOS EJES
         x = xMargenDibujo;
         painter.dibujarLinea(x, y, x, yMargen, false);
-        
+
         //DIBUJANDO LA LINEA HORIZONTAL DE LOS EJES
-        painter.dibujarLinea(x, y, maximaTerminacion*escalaDibujo+x, y, false);
-        
+        painter.dibujarLinea(x, y, maximaTerminacion * escalaDibujo + x, y, false);
+
         //Dibujando las lineas entrecortadas
         double valorAct = 0;
-        for(int i=1;i<=cantidadLineasEntrecortadas;i++){
-            valorAct += (maximaTerminacion/cantidadLineasEntrecortadas);
-            x += (maximaTerminacion/cantidadLineasEntrecortadas)*escalaDibujo;
-            painter.dibujarLinea(x, y+anchoBarra, x, yMargen, true);
-            painter.aniadirLabel(Utiles.redondear(valorAct)+"", x-8, y+10);
+        for (int i = 1; i <= cantidadLineasEntrecortadas; i++) {
+            valorAct += (maximaTerminacion / cantidadLineasEntrecortadas);
+            x += (maximaTerminacion / cantidadLineasEntrecortadas) * escalaDibujo;
+            painter.dibujarLinea(x, y + anchoBarra, x, yMargen, true);
+            painter.aniadirLabel(Utiles.redondear(valorAct) + "", x - 8, y + 10);
         }
-        
+
         //ESSCRIBIENDO LA LEYENDA
         y = y + 45;
         x = xMargenDibujo;
         painter.dibujarRectangulo(x, y, 10, 10, colorCritico, estilo);
         x += 20;
-        painter.aniadirLabel("Actividad critica", x, y-5);
-        
+        painter.aniadirLabel("Actividad critica", x, y - 5);
+
         x += 300;
         painter.dibujarRectangulo(x, y, 10, 10, colorNoCritico, estilo);
         x += 20;
-        painter.aniadirLabel("Actividad no critica", x, y-5);
-        
+        painter.aniadirLabel("Actividad no critica", x, y - 5);
+
         x += 300;
         painter.dibujarRectangulo(x, y, 10, 10, colorHolgura, estilo);
         x += 20;
-        painter.aniadirLabel("Holgura", x, y-5);
+        painter.aniadirLabel("Holgura", x, y - 5);
     }
 
     private void aniadirPruebita() {
@@ -471,7 +474,7 @@ public class ProjectController implements Initializable  {
         actividades.add(act7);
         actividades.add(act8);
     }
-    
+
     @FXML
     void actionNuevo(ActionEvent event) {
 

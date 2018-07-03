@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class CMP {
 
     public static void main(String[] args) {
-        /*List<Actividad> actividades = new LinkedList<>();
+        List<Actividad> actividades = new LinkedList<>();
         Actividad act0 = new Actividad(0, "A", 5.0);
         Actividad act1 = new Actividad(1, "B", 6.0);
         Actividad act2 = new Actividad(2, "C", 4.0);
@@ -29,16 +29,31 @@ public class CMP {
         Actividad act7 = new Actividad(7, "H", 12.0);
         Actividad act8 = new Actividad(8, "I", 2.0);
 
-        act0.getPredecesoras().add(act2);
-        act0.getPredecesoras().add(act3);
-        act0.getPredecesoras().add(act4);
-        act1.getPredecesoras().add(act7);
-        act2.getPredecesoras().add(act7);
-        act3.getPredecesoras().add(act6);
-        act4.getPredecesoras().add(act5);
-        act5.getPredecesoras().add(act6);
-        act6.getPredecesoras().add(act8);
-        act7.getPredecesoras().add(act8);
+// SI LAS ACTIVIDADES FUERAN INMEDIATAMENTE POSTERIORES
+//        act0.getPredecesoras().add(act2);
+//        act0.getPredecesoras().add(act3);
+//        act0.getPredecesoras().add(act4);
+//        act1.getPredecesoras().add(act7);
+//        act2.getPredecesoras().add(act7);
+//        act3.getPredecesoras().add(act6);
+//        act4.getPredecesoras().add(act5);
+//        act5.getPredecesoras().add(act6);
+//        act6.getPredecesoras().add(act8);
+//        act7.getPredecesoras().add(act8);
+        
+// ACTVIDADES  FUERAN PREDECESORAS INMEDIATAS
+        act2.getPredecesoras().add(act0);
+        act3.getPredecesoras().add(act0);
+        act4.getPredecesoras().add(act0);
+        act5.getPredecesoras().add(act4);
+        act6.getPredecesoras().add(act3);
+        act6.getPredecesoras().add(act5);
+        act7.getPredecesoras().add(act1);
+        act7.getPredecesoras().add(act2);
+        act8.getPredecesoras().add(act6);
+        act8.getPredecesoras().add(act7);
+        
+        
         actividades.add(act0);
         actividades.add(act1);
         actividades.add(act2);
@@ -48,11 +63,13 @@ public class CMP {
         actividades.add(act6);
         actividades.add(act7);
         actividades.add(act8);
-        programarProyecto(actividades);*/
+        
+        
+        programarProyecto(actividades);
     }
 
     public static List<ActividadProgramada> programarProyecto(List<Actividad> actividades) {
-        System.out.println("INICIANDO FUNCION");
+
         List<ActividadProgramada> lista = new LinkedList<>();
         //NUMERO DE ACTIVIDADES
         int N = actividades.size();
@@ -71,7 +88,8 @@ public class CMP {
             // AGREGANDO PREDECESORAS
             List<Actividad> listaPredecesoras = actividades.get(i).getPredecesoras();
             for (int j = 0; j < actividades.get(i).getPredecesoras().size(); j++) {
-                G.agregarArista(new AristaDirigida(N + i, listaPredecesoras.get(j).getNumeroDeActividad(), 0.0));
+//                G.agregarArista(new AristaDirigida(N + i, listaPredecesoras.get(j).getNumeroDeActividad(), 0.0));
+                G.agregarArista(new AristaDirigida(N + listaPredecesoras.get(j).getNumeroDeActividad(), i, 0.0));
             }
 
         }
@@ -81,7 +99,7 @@ public class CMP {
         try {
             cml = new LPAciclico(G, inicio);
         } catch (java.lang.IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(null, "ERROR!! \n El digrafo es ciclico", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "ERROR!! \n El digrafo es aciclico", "ERROR", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         double total = cml.distanciaHacia(fin);
