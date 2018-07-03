@@ -5,6 +5,8 @@ import clases.ActividadProgramada;
 import clases.CMP;
 import clases.GestorArchivos;
 import java.io.File;
+import java.net.URL;
+import utils.Utils;
 import utils.Painter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +34,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javax.swing.JOptionPane;
 import utils.Utiles;
@@ -66,10 +71,10 @@ public class ProjectController implements Initializable  {
 
     @FXML
     private TableColumn<Actividad, Button> columnEliminar;
-    
+
     @FXML
     private Button btnAgregar;
-    
+
     @FXML
     private TableView<ActividadProgramada> tablaResultado;
     
@@ -93,12 +98,12 @@ public class ProjectController implements Initializable  {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    //public void initialize(){
+        //public void initialize(){
         actividades = FXCollections.observableArrayList(new LinkedList<>());
         //aniadirPruebita();
         iniciarTablaActividades();
     }
-    
+
     /*EVENTO DEL BOTON PARA CAMBIAR A PESTAÑA 0*/
     @FXML
     void mostrarHistorialAcademico(ActionEvent event) {
@@ -119,6 +124,7 @@ public class ProjectController implements Initializable  {
         selectionModel.select(1);
 
     }
+
     /*EVENTO DEL BOTON PARA CAMBIAR A PESTAÑA 2*/
     @FXML
     void mostrarDiagramaGantt(ActionEvent event) {
@@ -136,45 +142,45 @@ public class ProjectController implements Initializable  {
         System.out.println("Cerra Sesion");
         ((Node) (event.getSource())).getScene().getWindow().hide();
     }
-    
+
     /*EVENTO DEL BOTON PARA AGREGAR UNA ACTIVIDAD*/
     @FXML
     void actionAgregarActividad(ActionEvent event) {
-    //    System.out.println("AGREGANDO ACTIVIDAD");
+        //    System.out.println("AGREGANDO ACTIVIDAD");
         Actividad nuevaActividad = new Actividad();
         actividades.add(nuevaActividad);
         nuevaActividad.setCombo(obtenerCombo());
         nuevaActividad.setBotonEliminar(obtenerBtnEliminar());
     }
-    
+
     /*Evento cuando terminas de editar el nombre de una actividad*/
     @FXML
     void finEdicionNombre(CellEditEvent<Actividad, String> event) {
-    //    System.out.println("VIEJA LISTA");
-    //    actividades.forEach(System.out::println);
+        //    System.out.println("VIEJA LISTA");
+        //    actividades.forEach(System.out::println);
         event.getRowValue().setNombreDeTarea(event.getNewValue());
-    //    System.out.println("NUEVA LISTA");
-    //    actividades.forEach(System.out::println);
+        //    System.out.println("NUEVA LISTA");
+        //    actividades.forEach(System.out::println);
     }
-    
+
     /*Evento cuando terminas de editar la duracion de una actividad*/
     @FXML
     void finEdicionDuracion(CellEditEvent<Actividad, Double> event) {
-    //    System.out.println("VIEJA LISTA");
-    //    actividades.forEach(System.out::println);
+        //    System.out.println("VIEJA LISTA");
+        //    actividades.forEach(System.out::println);
         event.getRowValue().setDuracion(event.getNewValue());
-    //    System.out.println("NUEVA LISTA");
-    //    actividades.forEach(System.out::println);
+        //    System.out.println("NUEVA LISTA");
+        //    actividades.forEach(System.out::println);
     }
-    
+
     private void iniciarTablaActividades() {
         tableActividades.setItems(actividades);
         columnN.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getNumeroDeActividad()));
         columnNombre.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNombreDeTarea()));
         columnNombre.setCellFactory(TextFieldTableCell.forTableColumn());
-        
+
         columnDuracion.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getDuracion()));
-        
+
         columnDuracion.setCellFactory(TextFieldTableCell.forTableColumn(
                 new StringConverter<Double>() {
             @Override
@@ -188,14 +194,16 @@ public class ProjectController implements Initializable  {
             }
         }
         ));
-        
+
         columnPredecesores.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getPredecesoras()));
         columnPredecesores.setCellFactory(TextFieldTableCell.forTableColumn(
-                new StringConverter< List<Actividad> >() {
+                new StringConverter< List<Actividad>>() {
             @Override
             public String toString(List<Actividad> lista) {
-                if(lista==null) return "";
-                
+                if (lista == null) {
+                    return "";
+                }
+
                 List<Integer> listaNumeros = new LinkedList<>();
                 try{
                     lista.forEach(act -> listaNumeros.add(act.getNumeroDeActividad()));
@@ -212,7 +220,7 @@ public class ProjectController implements Initializable  {
             }
         }
         ));
-        
+
         columnAgregar.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getCombo()));
         columnEliminar.setCellValueFactory(cellData -> new SimpleObjectProperty(cellData.getValue().getBotonEliminar()));
     }
@@ -229,10 +237,10 @@ public class ProjectController implements Initializable  {
                 cellData.getValue().isRutaCritica() ? "SI" : "NO"));
         
     }
-    
-    private ComboBox<Actividad> obtenerCombo(){
+
+    private ComboBox<Actividad> obtenerCombo() {
         ComboBox<Actividad> combo = new ComboBox<>(actividades);
-        
+
         //Para cambiar lo que va a mostrar el comboBox i.e.
         //solo el numeroDeActividad enves de toda la actividad
         combo.setConverter(new StringConverter<Actividad>() {
@@ -270,32 +278,31 @@ public class ProjectController implements Initializable  {
         });
         return combo;
     }
-    
-    private Button obtenerBtnEliminar(){
-        Image imageMenos = new Image(getClass().getResourceAsStream("/images/iconoMenos.png"),50,55,true,true);
-        
-        Button botonEliminar = new Button("",new ImageView(imageMenos));
+
+    private Button obtenerBtnEliminar() {
+        Image imageMenos = new Image(getClass().getResourceAsStream("/images/iconoMenos.png"), 50, 55, true, true);
+
+        Button botonEliminar = new Button("", new ImageView(imageMenos));
         //ESTABLECIENDO EL EVENTO CUANDO SE HAGA CLICK
-        botonEliminar.setOnAction((evt)->{
+        botonEliminar.setOnAction((evt) -> {
             Actividad estaActividad = actividades.stream()
-                    .filter((act)->act.getBotonEliminar().equals(botonEliminar))
+                    .filter((act) -> act.getBotonEliminar().equals(botonEliminar))
                     .findFirst().get();
-            
+
             //estaActividad = actividades.filtered((r)->r.getBotonEliminar()==botonEliminar).get(0);
-            
-            System.out.println("Eliminando: "+estaActividad.getNumeroDeActividad());
-            actividades.forEach((act)->{
+            System.out.println("Eliminando: " + estaActividad.getNumeroDeActividad());
+            actividades.forEach((act) -> {
                 act.eliminarPredecesora(estaActividad);
-                if(act.getNumeroDeActividad()>estaActividad.getNumeroDeActividad()){
-                    act.setNumeroDeActividad(act.getNumeroDeActividad()-1);
+                if (act.getNumeroDeActividad() > estaActividad.getNumeroDeActividad()) {
+                    act.setNumeroDeActividad(act.getNumeroDeActividad() - 1);
                 }
             });
-            
+
             //QUIZA HAY QUE MEJORAR
             Actividad.reducirIndice();
             actividades.remove(estaActividad);
             tableActividades.refresh();
-        
+
         });
         botonEliminar.getStyleClass().add("btnCentrado");
         return botonEliminar;
@@ -432,8 +439,8 @@ public class ProjectController implements Initializable  {
         x += 20;
         painter.aniadirLabel("Holgura", x, y-5);
     }
-    
-    private void aniadirPruebita(){
+
+    private void aniadirPruebita() {
         Actividad act0 = new Actividad(0, "A", 5.0);
         Actividad act1 = new Actividad(1, "B", 6.0);
         Actividad act2 = new Actividad(2, "C", 4.0);
