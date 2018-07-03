@@ -28,8 +28,16 @@ public class Actividad {
         numeroDeActividad = indice;
         predecesoras = new LinkedList<>();
     }
+      public Actividad(String nombreDeTarea, double duracion) {
+        indice++;
+        this.numeroDeActividad = indice;
+        this.nombreDeTarea = nombreDeTarea;
+        this.duracion = duracion;
+        predecesoras = new LinkedList<>();
+    }
 
     public Actividad(int numeroDeActividad, String nombreDeTarea, double duracion) {
+        indice++;
         this.numeroDeActividad = numeroDeActividad;
         this.nombreDeTarea = nombreDeTarea;
         this.duracion = duracion;
@@ -102,5 +110,8 @@ public class Actividad {
                 + ", predecesoras=" + predecesoras  + '}';
     }
     
+   public static void resetearInidice(){
+       indice = -1;
+   }
     
 }

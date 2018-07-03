@@ -99,16 +99,20 @@
       <Separator layoutY="200.0" prefHeight="4.0" prefWidth="1200.0" />
       <Pane prefHeight="70.0" prefWidth="1200.0" style="-fx-background-color: #486E9D;">
          <children>
-            <Label layoutX="532.0" layoutY="14.0" prefHeight="50.0" prefWidth="137.0" text="PROJECT" textAlignment="RIGHT" textFill="WHITE">
+            <Label layoutX="532.0" layoutY="22.0" prefHeight="50.0" prefWidth="137.0" text="PROJECT" textAlignment="RIGHT" textFill="WHITE">
                <font>
                   <Font name="Candara Bold Italic" size="30.0" />
                </font>
             </Label>
             <MenuBar prefHeight="12.0" prefWidth="1200.0">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Archivo">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem mnemonicParsing="false" onAction="#actionNuevo" text="Nuevo" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionAbrir" text="Abrir" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionGuardar" text="Guardar" />
+                        <MenuItem mnemonicParsing="false" onAction="#actionGuardarComo" text="Guardar Como ..." />
+                        <MenuItem mnemonicParsing="false" text="Cerrar" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
